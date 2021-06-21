@@ -37,7 +37,7 @@ class Department_owner(BaseModelCustom, models.Model):
     phone_regex          = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
     p_number             = models.CharField(validators=[phone_regex], max_length=16, blank=False)
     p_number_emergency   = models.CharField(validators=[phone_regex], max_length=16, blank=False)
-    department_id        = models.OneToOneField(Department, on_delete=models.CASCADE)
+    department_id        = models.OneToOneField(Department, on_delete=models.CASCADE, related_name='department_id_owner')
     account_confirmation = models.BooleanField(default=False)
 
 class Comments(BaseModelCustom, models.Model):
@@ -49,8 +49,8 @@ class Comments(BaseModelCustom, models.Model):
     flaw            = models.TextField(blank=False)
 
 class FinancialStatus(BaseModelCustom, models.Model):
-    condominium_id = models.OneToOneField(Condominium, on_delete=models.CASCADE)
-    type_detail    = models.CharField(max_length=100, blank=False)
-    income         = models.FloatField(validators=[MinValueValidator(0)], blank=True)
-    expenses       = models.FloatField(validators=[MinValueValidator(0)], blank=True)
-    details        = models.TextField(blank=False)
+    condominium_id  = models.OneToOneField(Condominium, on_delete=models.CASCADE)
+    type_detail     = models.CharField(max_length=100, blank=False)
+    income          = models.FloatField(validators=[MinValueValidator(0)], blank=True)
+    expenses        = models.FloatField(validators=[MinValueValidator(0)], blank=True)
+    details         = models.TextField(blank=False)

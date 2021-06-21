@@ -25,7 +25,7 @@ SECRET_KEY = '_svs$%5_&xpv*sagq+8@-pz*ean(dh43eutsp64ix(mnex@smn'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # My apps
+    'gestion_condominios',
 ]
 
 MIDDLEWARE = [
