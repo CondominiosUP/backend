@@ -6,3 +6,6 @@ djangorestframework==3.12.4
 
 # Python decouple
 python-decouple==3.4
+
+# Gunircorn
+gunicorn==20.1.0
