@@ -1,0 +1,1 @@
+web: gunicorn condominios.wsgi --log-file -
