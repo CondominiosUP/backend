@@ -1,20 +1,17 @@
 """ Serializers. """
 
 # Django
-from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import fields
-from django.utils import timezone
 
 # Django REST Framework
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 # Models
-from .models import Condominium, Department, FinancialStat, PriorityOrUpgrade, Comment
+from .models import Condominium, Department, FinancialStat, PriorityOrUpgrade, Comment, ProfileHabitant
 
 
 class UserLoginSerializer(serializers.Serializer):
@@ -43,6 +40,7 @@ class UserBaseModelSerializer(serializers.ModelSerializer):
         """ Meta class. """
         model  = User
         fields = (
+            'id',
             'username',
             'first_name',
             'last_name',
@@ -236,3 +234,26 @@ class CondominiumSuggestionModelSerializer(serializers.ModelSerializer):
                 return detail
         except ObjectDoesNotExist:
             raise serializers.ValidationError("The name of the Condominium doesn't match with any of them.")
+
+
+class ProfileUserModelSerializer(serializers.ModelSerializer):
+    """ Profile user model serializer. """
+    class Meta:
+        """ Meta class. """
+        model = ProfileHabitant
+        fields = (
+            'p_number',
+            'p_number_emergency',
+        )
+
+class BaseCondominiumModelSerializer(serializers.ModelSerializer):
+    """ Base condominium model serializer. """
+    class Meta:
+        model = Condominium
+        fields = ('name_condominium',)
+    
+class ChangePasswordSerializer(serializers.Serializer):
+    """ Serializer to change the password when update it. """
+
+    old_password = serializers.CharField(required=True, min_length=8)
+    new_password = serializers.CharField(required=True, min_length=8)
