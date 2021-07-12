@@ -37,7 +37,7 @@ class ShowAPI(APIView):
         data = {
             'Endpoints': {
                 'https://cb9e26a7474b.ngrok.io/v1/login/',
-                'https://cb9e26a7474b.ngrok.io/v1/invite/',
+                'https://cb9e26a7474b.ngrok.io/v1/register-and-invite/',
                 'https://cb9e26a7474b.ngrok.io/v1/names-condominiums/',
                 'https://cb9e26a7474b.ngrok.io/v1/condominium-list/',
                 'https://cb9e26a7474b.ngrok.io/v1/condominium/<int:pk>/',
@@ -46,6 +46,7 @@ class ShowAPI(APIView):
                 'https://cb9e26a7474b.ngrok.io/v1/condominium/sugestions/',
                 'https://cb9e26a7474b.ngrok.io/v1/financial-status/',
                 'https://cb9e26a7474b.ngrok.io/v1/financial-status/<int:pk>/',
+                'https://cb9e26a7474b.ngrok.io/v1/update/<int:pk>/',
             }
         }
         return Response(data, status=status.HTTP_200_OK)
@@ -167,49 +168,6 @@ class UpdatePasswordAPIView(generics.UpdateAPIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-# class RegisterUserAPIView(APIView):
-#     renderer_classes = [JSONRenderer]
-#     permission_classes = [IsAuthenticated, IsAdminUser]
-
-#     def post(self, request):
-#         data_user = User.objects.create(
-#             username = request.data['username'],
-#             password = request.data['password'],
-#             email    = request.data['email'],
-#             first_name = request.data['name_owner'],
-#         )
-#         data_user.save()
-#         data_condominium = Condominium.objects.get(name_condominium=request.data['name_condominium'])
-#         data_department = Department.objects.create(
-#             condominium_id = data_condominium,
-#             department_number = request.data['number_department'],
-#             department_block = request.data['number_block'],
-#             number_habitants = request.data['number_habitants'],
-#             department_owner = request.data['name_owner']
-#         )
-#         data_department.save()
-
-#         user_data = User.objects.get(username=request.data['username'])
-#         department_data = Department.objects.get(department_owner=request.data['name_owner'])
-#         data_profile = ProfileHabitant.objects.create(
-#             user = user_data,
-#             p_number = request.data['p_number'],
-#             p_number_emergency = request.data['p_number_emergency'],
-#             department_id =department_data
-#         )
-#         data_profile.save()
-#         user_serializer = UserBaseModelSerializer(data_user)
-#         department_serializer = DepartmentModelSerializer(data_department)
-#         profile_serializer = ProfileUserModelSerializer(data_profile)
-#         condominium_name = BaseCondominiumModelSerializer(data_condominium)
-#         final_data = {
-#             "user" : { 
-#                 user_serializer.data,
-#                 profile_serializer.data,department_serializer.data,condominium_name.data }
-#         }
-#         return Response(final_data, status=status.HTTP_201_CREATED)
-
 def create_email(email, subject, template_path, context):
     template = get_template(template_path)
     content = template.render(context)
@@ -221,19 +179,6 @@ def create_email(email, subject, template_path, context):
     )
     mail.attach_alternative(content, 'text/html')
     return mail
-
-# def generate_random_username_and_password():
-#     length = 10
-#     values = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ<=>@#%&+"
-#     username, password = "", ""
-#     username, password = username.join([choice(values) for i in range(length)]), password.join([choice(values) for i in range(length)])
-#     User.objects.create_user(username=username, password=password)
-#     data = []
-#     data.append({
-#         'username': username,
-#         'password': password,
-#         })
-#     return data
 
 
 class InviteAPIView(APIView):
