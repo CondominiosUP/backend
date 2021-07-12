@@ -12,3 +12,6 @@ gunicorn==20.1.0
 
 # Django CORS Headers
 django-cors-headers==3.7.0
+
+# Mysql
+mysqlclient==2.0.3
